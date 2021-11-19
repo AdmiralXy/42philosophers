@@ -53,8 +53,8 @@ $> 600 2 is thinking
 
 ### Makefile commands
 
-* make / make all / make push_swap - compile project
+* make / make all / make philo - compile project
 * make *.o - compile specific source file
 * make clean - clean all object files
 * make fclean - clean all object files & library
-* make norme - check that all functions are created in accordance with Norm
+* make norminette - check that all functions are created in accordance with Norm
