@@ -1,6 +1,8 @@
 ## Philosophers
 
-### About project
+### About
+
+This project about solving the dining philosophers problem - in computer science it is an example problem often used in concurrent algorithm design to illustrate synchronization issues and techniques for resolving them.
 
 * One or more philosophers are sitting at a round table either eating, either thinking,
 either sleeping. While they are eating, they do not think or sleep; while thinking
@@ -39,16 +41,16 @@ Usage:
 Run:
 ```
 $> ./philo 2 800 200 200 1
-$> 0 1 has taken a fork
-$> 0 1 has taken a fork
-$> 0 1 is eating
-$> 200 1 is sleeping
-$> 200 2 has taken a fork
-$> 200 2 has taken a fork
-$> 200 2 is eating
-$> 400 2 is sleeping
-$> 400 1 is thinking
-$> 600 2 is thinking
+0 1 has taken a fork
+0 1 has taken a fork
+0 1 is eating
+200 1 is sleeping
+200 2 has taken a fork
+200 2 has taken a fork
+200 2 is eating
+400 2 is sleeping
+400 1 is thinking
+600 2 is thinking
 ```
 
 ### Makefile commands
