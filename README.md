@@ -2,7 +2,7 @@
 
 ### About
 
-This project about solving the dining philosophers problem - in computer science it is an example problem often used in concurrent algorithm design to illustrate synchronization issues and techniques for resolving them.
+This project focuses on solving the dining philosophers problem - in computer science it is an example problem often used in concurrent algorithm design to illustrate synchronization issues and techniques for resolving them.
 
 * One or more philosophers are sitting at a round table either eating, either thinking,
 either sleeping. While they are eating, they do not think or sleep; while thinking
