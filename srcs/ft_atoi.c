@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  <kricky@student.21-school.ru>             +#+  +:+       +#+        */
+/*   By: kricky <kricky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/21 09:46:26 by kricky            #+#    #+#             */
-/*   Updated: 2021/09/21 10:10:46 by                  ###   ########.fr       */
+/*   Created: 2021/11/18 10:33:51 by kricky            #+#    #+#             */
+/*   Updated: 2021/11/19 13:10:44 by kricky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	ft_atoi(const char *str)
 	sign = 1;
 	while (str[i] != '\0' && ft_iswhitespace(str[i]))
 		i++;
+	if (str[i] != '\0' && !ft_isdigit(str[i]))
+		return (-1);
 	if (str[i] != '\0' && ft_issign(str[i]))
 	{
 		if (str[i++] == '-')

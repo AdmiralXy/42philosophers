@@ -3,37 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  <kricky@student.21-school.ru>             +#+  +:+       +#+        */
+/*   By: kricky <kricky@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/21 09:46:26 by kricky            #+#    #+#             */
-/*   Updated: 2021/09/21 19:30:19 by                  ###   ########.fr       */
+/*   Created: 2021/11/18 10:33:51 by kricky            #+#    #+#             */
+/*   Updated: 2021/11/18 10:35:09 by kricky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philosophers.h"
 
-int	ft_init_collection(t_collection *phs)
-{
-	int	i;
-
-	i = 0;
-	while (i < phs->n)
-	{
-		phs->philosophers[i].index = i + 1;
-		phs->philosophers[i].left_fork = i;
-		phs->philosophers[i].right_fork = (i + 1) % phs->n;
-		phs->philosophers[i].eat_counter = 0;
-		phs->philosophers[i].phs = phs;
-		if (pthread_mutex_init(&(phs->forks[i]), NULL))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	ft_validation(int argc, char **argv)
 {
-	if (ft_atoi(argv[1]) < 1 || ft_atoi(argv[2]) < 0)
+	if (ft_atoi(argv[1]) < 0 || ft_atoi(argv[2]) < 0)
 		return (0);
 	if (ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) < 0)
 		return (0);
@@ -42,23 +23,55 @@ int	ft_validation(int argc, char **argv)
 	return (1);
 }
 
-int	ft_init(int argc, char **argv, t_collection *phs)
+int	ft_init(int argc, char **argv, t_env *env)
 {
 	if (!ft_validation(argc, argv))
-		return (ft_throw(phs, ERROR_ARGS, 0));
-	phs->simulation_stops = 0;
-	phs->n = ft_atoi(argv[1]);
-	phs->die_time = ft_atoi(argv[2]);
-	phs->eat_time = ft_atoi(argv[3]);
-	phs->sleep_time = ft_atoi(argv[4]);
-	if (argc > 5)
-		phs->max_eat_counter = ft_atoi(argv[5]);
+	{
+		free(env);
+		return (ft_throw(ERROR_ARGS, 0));
+	}
+	env->n_philosophers = ft_atoi(argv[1]);
+	if (!env->n_philosophers)
+	{
+		free(env);
+		return (0);
+	}
+	env->die_time = ft_atoi(argv[2]);
+	env->eat_time = ft_atoi(argv[3]);
+	env->sleep_time = ft_atoi(argv[4]);
+	if (argc < 6)
+		env->eat_count = -1;
 	else
-		phs->max_eat_counter = -1;
-	phs->forks = malloc(sizeof(t_mutex) * phs->n);
-	phs->philosophers = malloc(sizeof(t_philosopher) * phs->n);
-	phs->print = malloc(sizeof(t_mutex));
-	if (!phs->forks || !phs->philosophers || !ft_init_collection(phs))
-		return (ft_throw(phs, ERROR_MALLOC, 0));
+		env->eat_count = ft_atoi(argv[5]);
+	env->philosophers = malloc(sizeof(t_philosopher) * env->n_philosophers);
+	env->forks = malloc(sizeof(t_mutex) * env->n_philosophers);
+	env->print = malloc(sizeof(t_mutex));
+	if (!env->forks || !env->philosophers || !env->print)
+		return (ft_throw(ERROR_MALLOC, 0));
+	env->start_time = ft_timestamp();
 	return (1);
+}
+
+void	ft_init_philosophers(t_env *env)
+{
+	int	i;
+
+	i = -1;
+	pthread_mutex_init(env->print, NULL);
+	while (++i < env->n_philosophers)
+		pthread_mutex_init(&env->forks[i], NULL);
+	i = -1;
+	while (++i < env->n_philosophers)
+	{
+		env->philosophers[i].index = i + 1;
+		env->philosophers[i].eat_time = env->eat_time;
+		env->philosophers[i].sleep_time = env->sleep_time;
+		env->philosophers[i].ate_last_time = 0;
+		env->philosophers[i].left_fork = &env->forks[i];
+		env->philosophers[i].right_fork
+			= &env->forks[(i + 1) % env->n_philosophers];
+		env->philosophers[i].start_time = env->start_time;
+		env->philosophers[i].print = env->print;
+		env->philosophers[i].eat_counter = env->eat_count;
+	}
 }

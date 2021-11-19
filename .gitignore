@@ -1,3 +1,6 @@
 .idea
+.vscode
 *.o
 philo
+a.out
+philo.dSYM
