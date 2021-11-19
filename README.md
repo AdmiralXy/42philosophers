@@ -1,4 +1,4 @@
-## Minitalk
+## Philosophers
 
 ### About project
 
