@@ -2,7 +2,7 @@ CC = gcc
 RM = rm -f
 INC = includes
 INCLUDES = ft_philosophers.h
-CFLAGS = -Wall -Wextra -Werror -pthread -I$(INC) -g
+CFLAGS = -Wall -Wextra -Werror -pthread -I$(INC)
 
 NAME = philo
 
